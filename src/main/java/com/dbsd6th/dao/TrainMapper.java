@@ -3,6 +3,8 @@ package com.dbsd6th.dao;
 import com.dbsd6th.entity.Train;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TrainMapper {
     int deleteByPrimaryKey(Integer id);
@@ -25,4 +27,5 @@ public interface TrainMapper {
     //根据trainNum（列车号）来获得车次信息
     Train selectByTrainNum(String trainNum);
 
+    List<Train> selectAll();
 }

@@ -4,9 +4,7 @@ import com.dbsd6th.entity.TicketCount;
 import com.dbsd6th.entity.Train;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 @Repository
 public interface TicketCountMapper {
@@ -34,6 +32,8 @@ public interface TicketCountMapper {
     /*根据trainId以及order_time来获得记录*/
     TicketCount searchTicket2(Integer trainId ,Date orderTime);
 
+    Set<Date> selectAllGroupByTime(Map<String, Date> condition);
 
+    Boolean insertBatch(List<TicketCount> ticketCountList);
 
 }

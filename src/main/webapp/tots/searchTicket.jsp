@@ -31,7 +31,7 @@
     </div>
     <div id="navfirst">
         <ul id="menu">
-            <li id="s3"><a href="searchTicket.jsp" title="车票查询">车票查询</a></li>
+            <li id="s3"><a href="advancedsearch.jsp" title="车票查询">车票高级查询</a></li>
             <li id="s1"><a href="/tots/userinfo.jsp" title="个人中心">个人中心</a></li>
             <li id="s2"><a href="/logout" title="记账">退出登陆</a></li>
         </ul>
@@ -40,7 +40,7 @@
 <h2 style="text-align:center;">车票查询</h2>
 
 <div class="search">
-    <form id="form-msg" class="sui-form form-horizontal"  method="post" action="/normalSearch">
+    <form id="form-msg" class="sui-form form-horizontal"  method="post" action="/ticketSearch">
         <div id="navfirst">
             <ul id="menu">
                 <li > <div class="control-group">
@@ -63,6 +63,7 @@
                 <li ><div class="control-group">
                     <label for="submit-btn" class="control-label"></label>
                     <div class="controls">
+                        <input type="hidden" name="flag" value="2" />
                         <input type="submit" id="submit-btn" class="input-small" value="车次查询" />
                     </div></div></li></ul>
         </div>

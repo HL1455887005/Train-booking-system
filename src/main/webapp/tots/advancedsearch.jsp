@@ -36,7 +36,7 @@
     </div>
     <div id="navfirst">
         <ul id="menu">
-            <li id="s3"><a href="searchTicket.jsp" title="车票查询">车票高级查询</a></li>
+            <li id="s3"><a href="searchTicket.jsp" title="车票查询">车票查询</a></li>
             <li id="s1"><a href="userinfo.jsp" title="个人中心">个人中心</a></li>
             <li id="s2"><a href="login.jsp" title="记账">退出登陆</a></li>
         </ul>
@@ -45,27 +45,27 @@
 <h2 style="text-align:center;">高级查询</h2>
 <div class="search">
 
-    <form id="form-msg" class="sui-form form-horizontal"  method="post" action="advancedsearch">
+    <form id="form-msg" class="sui-form form-horizontal"  method="post" action="/ticketSearch">
         <div id="navfirst">
             <ul id="menu">
                 <li > <div class="control-group">
                     <label for="startpoint" class="control-label">起点：</label>
                     <div class="controls">
                         <input type="text" id="startpoint"  name="beginStation" class="input-middle"
-                               value="${requestScope.adtatList[0].beginStation}"/>
+                               value="${sessionScope.adtatList[0].trainInfo.chufazhan}"/>
                     </div></div></li>
                 <li ><div class="control-group">
                     <label for="finishpoint" class="control-label">终点：</label>
                     <div class="controls">
                         <input type="text" id="finishpoint"  name="targetStation" class="input-middle"
-                               value="${requestScope.adtatList[1].targetStation}" />
+                               value="${sessionScope.adtatList[1].trainInfo.mudizhan}" />
                     </div></div></li>
                 <li ><div class="control-group">
                     <label for="time" class="control-label">出发日期：</label>
                     <div class="controls">
                         <input type="text" name="targetDate" id="datepicker" />
                     </div></div></li>
-                <li ><div class="control-group">
+               <%-- <li ><div class="control-group">
                     排序方式：
                     <div class="controls">
                         <select name="advancedFlag">
@@ -73,10 +73,11 @@
                             <option value ="1">最节约时间出行</option>
                             <option value="2">最短路程出行</option>
                         </select>
-                    </div></div></li>
+                    </div></div></li>--%>
                 <li ><div class="control-group">
                     <label for="time" class="control-label"></label>
                     <div class="controls">
+                        <input type="hidden" name="flag" value="1" />
                         <input type="submit"  class="input-small" value="车次查询" />
                     </div></div></li></ul>
         </div>
@@ -106,36 +107,37 @@
             </tr>
             </thead>
             <tbody>
-            <c:if test="${! empty requestScope.isPostResponse}">
+            <c:if test="${! empty sessionScope.isAdPostResponse}">
             <c:choose>
-                <c:when test="${empty requestScope.adtatList}">
-                    <td colspan="6" style="text-align:center;font-weight:bold;">
+                <c:when test="${empty sessionScope.adtatList}">
+                    <td colspan="16" style="text-align:center;font-weight:bold;">
                        没有对应车次
                     </td>
                 </c:when>
-                <c:when test="${empty requestScope.adtatList[0].ticketList}">
-                    <td colspan="6" style="text-align:center;font-weight:bold;">
-                        查询日期车票不能购买
-                    </td>
-                </c:when>
-                <c:when test="${! empty requestScope.adtatList}">
-                    <c:forEach items="${requestScope.adtatList}" var="elemTrain" varStatus="status">
+                <%--<c:when test="${empty requestScope.adtatList[0].ticketList}">--%>
+                    <%--<td colspan="6" style="text-align:center;font-weight:bold;">--%>
+                        <%--查询日期车票不能购买--%>
+                    <%--</td>--%>
+                <%--</c:when>--%>
+                <c:when test="${! empty sessionScope.adtatList}">
+                    <c:forEach items="${sessionScope.adtatList}" var="elemTrain" varStatus="status">
                         <tr>
-                            <td>${elemTrain.trainId}</td>
-                            <td>${elemTrain.beginStation}</td>
-                            <td>${elemTrain.targetStation}</td>
-                            <td>${elemTrain.beginTime}</td>
-                            <td>${elemTrain.targetTime}</td>
-                            <td>
-                                <c:forEach items="${elemTrain.ticketList}" var="elemTicket">
-                                    ${elemTicket.level}:${elemTicket.num}&nbsp;&nbsp;
-                                </c:forEach>
-                            </td>
-                        <c:if test="${status.count%2==0}">
-
-                                <td><button><a href="buyticket?tarIndex=${status.index}">预定</a></button></td>
-
-                        </c:if>
+                            <td>${elemTrain.trainInfo.trainNum}</td>
+                            <td>${elemTrain.trainInfo.chufazhan}</td>
+                            <td>${elemTrain.trainInfo.mudizhan}</td>
+                            <td>${elemTrain.trainInfo.departureTime}</td>
+                            <td>${elemTrain.trainInfo.arriveTime}</td>
+                            <td>${elemTrain.ticketCount.businessRemain}</td>
+                            <td>${elemTrain.ticketCount.firstRemain}</td>
+                            <td>${elemTrain.ticketCount.secondRemain}</td>
+                            <td>${elemTrain.ticketCount.advancedSoftRemain}</td>
+                            <td>${elemTrain.ticketCount.softSleeperRemain}</td>
+                            <td>${elemTrain.ticketCount.highspeedSleeperRemain}</td>
+                            <td>${elemTrain.ticketCount.hardSleeperRemain}</td>
+                            <td>${elemTrain.ticketCount.softRemain}</td>
+                            <td>${elemTrain.ticketCount.hardRemain}</td>
+                            <td>${elemTrain.ticketCount.standRemain}</td>
+                            <td><button><a href="/adPreBuy/${status.index}">预定</a></button></td>
 
                         </tr>
                         <c:if test="${status.count%2==0}">

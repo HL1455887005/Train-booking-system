@@ -34,7 +34,7 @@
             <li id="s3"><a href="/admin/form-amazeui.jsp" title="管理个人信息" style="color: red">管理个人信息</a></li>
             <li id="s1"><a href="/admin/form-line.jsp" title="车次管理">车次管理</a></li>
             <li id="s2"><a href="/admin/form-line1.jsp" title="车站管理">车站管理</a></li>
-            <li id="s4"><a href="refreshticket" title="刷新车票">车票刷新</a></li>
+            <li id="s4"><a href="/refreshticket" title="刷新车票">车票刷新</a></li>
         </ul>
     </div>
 </div>

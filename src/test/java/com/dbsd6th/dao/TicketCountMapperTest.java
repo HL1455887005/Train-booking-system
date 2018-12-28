@@ -11,9 +11,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author hjs
@@ -22,8 +20,9 @@ import java.util.List;
 public class TicketCountMapperTest {
 
     private ApplicationContext applicationContext;
-    @Autowired
     private TicketCountMapper ticketCountMapper;
+
+    private static final long DAY_MILLS = 24 * 60 * 60 * 1000;
 
     @Before
     public void setUp() throws Exception {
@@ -134,4 +133,15 @@ public class TicketCountMapperTest {
 
     }
 
+    @Test
+    public void selectAllGroupByTime() {
+        Date nowDate = new Date();
+        Date eTime = new Date(nowDate.getTime() + (30 * DAY_MILLS));
+
+        Map<String, Date> map = new HashMap<String, Date>();
+        map.put("sTime", nowDate);
+        map.put("eTime", eTime);
+        Set<Date> dateSet = ticketCountMapper.selectAllGroupByTime(map);
+        System.out.println(dateSet);
+    }
 }

@@ -35,6 +35,12 @@
     where train_id = #{tid, jdbcType=INTEGER} and order_time > #{sTime, jdbcType=DATE}
           and #{eTime, jdbcType=DATE} > order_time
   </select>
+  <select id="selectAllGroupByTime" parameterType="java.util.HashMap" resultType="java.util.Date">
+    select order_time
+    from ticket_count
+    where order_time >= #{sTime, jdbcType=TIMESTAMP} and #{eTime, jdbcType=TIMESTAMP} > order_time
+    group by order_time
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from ticket_count
@@ -145,6 +151,24 @@
       </if>
     </trim>
   </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into ticket_count (id, train_id, ticket_remain,
+      order_time, stand_remain, second_remain,
+      first_remain, business_remain, soft_sleeper_remain,
+      advanced_soft_remain, highspeed_sleeper_remain,
+      hard_sleeper_remain, soft_remain, hard_remain
+      )
+    values
+    <foreach collection="list" item="ticketEle" index="index" separator=",">
+      (#{ticketEle.id,jdbcType=INTEGER}, #{ticketEle.trainId,jdbcType=INTEGER}, #{ticketEle.ticketRemain,jdbcType=INTEGER},
+      #{ticketEle.orderTime,jdbcType=TIMESTAMP}, #{ticketEle.standRemain,jdbcType=INTEGER}, #{ticketEle.secondRemain,jdbcType=INTEGER},
+      #{ticketEle.firstRemain,jdbcType=INTEGER}, #{ticketEle.businessRemain,jdbcType=INTEGER}, #{ticketEle.softSleeperRemain,jdbcType=INTEGER},
+      #{ticketEle.advancedSoftRemain,jdbcType=INTEGER}, #{ticketEle.highspeedSleeperRemain,jdbcType=INTEGER},
+      #{ticketEle.hardSleeperRemain,jdbcType=INTEGER}, #{ticketEle.softRemain,jdbcType=INTEGER}, #{ticketEle.hardRemain,jdbcType=INTEGER}
+      )
+    </foreach>
+  </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.dbsd6th.entity.TicketCount" >
     update ticket_count
     <set >

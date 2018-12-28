@@ -53,6 +53,32 @@ public class OrderTicketController {
         }
 
         TrainAndTicket tarTat = trainAndTicketList.get(tatIndex);
+        List<Map<String, Object>> seatFormList = getSeatTypeForm(tarTat);
+
+        session.setAttribute("tarTat", tarTat);
+        session.setAttribute("seatFormList", seatFormList);
+
+        return "tots/showticket";
+    }
+
+    @RequestMapping("/adPreBuy/{tatIndex}")
+    public String adPreBuy(HttpSession session, @PathVariable("tatIndex") Integer tatIndex) {
+        List<TrainAndTicket> trainAndTicketList = (List<TrainAndTicket>)session.getAttribute("adtatList");
+        /*若无对应数据则返回到查询页面*/
+        if(trainAndTicketList == null) {
+            return "tots/searchTicket";
+        }
+
+        TrainAndTicket tarTat = trainAndTicketList.get(tatIndex);
+        List<Map<String, Object>> seatFormList = getSeatTypeForm(tarTat);
+
+        session.setAttribute("tarTat", tarTat);
+        session.setAttribute("seatFormList", seatFormList);
+
+        return "tots/showticket";
+    }
+
+    private List<Map<String, Object>> getSeatTypeForm(TrainAndTicket tarTat) {
         tarTat.getTrainInfo().setDistance(routeService.getDistance(tarTat));
         List<SeatType> seatTypeList = seatTypeService.getAllSeatType();
 
@@ -70,10 +96,7 @@ public class OrderTicketController {
             seatFormList.add(map);
         }
 
-        session.setAttribute("tarTat", tarTat);
-        session.setAttribute("seatFormList", seatFormList);
-
-        return "tots/showticket";
+        return seatFormList;
     }
 
     @RequestMapping(path = "/buyOneTicket", method = RequestMethod.POST)
